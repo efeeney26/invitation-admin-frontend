@@ -1,17 +1,7 @@
-import React, { FC, useEffect } from 'react';
+import React, { FC } from 'react';
 
-interface AppProps {
-  label: string
-}
-
-const App: FC<AppProps> = ({ label }) => {
-  useEffect(() => {
-    console.log(label);
-  }, [label]);
-
-  return (
-    <h1>Hello</h1>
-  );
-};
+const App: FC = () => (
+  <h1>Hello</h1>
+);
 
 export default App;
