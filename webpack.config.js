@@ -1,6 +1,8 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
+const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
+const ReactRefreshTypeScript = require('react-refresh-typescript');
 
 const {
   NODE_ENV = 'development'
@@ -24,6 +26,11 @@ module.exports = {
             {
               loader: "ts-loader",
               options: {
+                ...(isProductionMode ? {} : {
+                    getCustomTransformers: () => ({
+                      before: [ReactRefreshTypeScript()]
+                    })
+                }),
                 transpileOnly: true
               }
             }
@@ -47,7 +54,10 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: 'public/index.html'
     }),
-    new ForkTsCheckerWebpackPlugin()
+    new ForkTsCheckerWebpackPlugin(),
+    ...(isProductionMode ? [] : [
+      new ReactRefreshWebpackPlugin()
+    ])
   ],
   output: {
     path: path.resolve(__dirname, 'dist'),

@@ -1,7 +1,14 @@
-import React, { FC } from 'react';
+import React, { FC, useEffect } from 'react';
 
-const App: FC = () => (
-  <h1>Hello</h1>
-);
+import { Main } from './pages';
+
+const App: FC = () => {
+  useEffect(() => {
+    console.log('App mount');
+  }, []);
+  return (
+    <Main label="Hello" />
+  );
+};
 
 export default App;
