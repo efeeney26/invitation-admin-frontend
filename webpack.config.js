@@ -3,6 +3,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
 const ReactRefreshTypeScript = require('react-refresh-typescript');
+const TerserPlugin = require("terser-webpack-plugin")
 
 const {
   NODE_ENV = 'development'
@@ -22,6 +23,9 @@ module.exports = {
           use: [
             {
               loader: "babel-loader",
+              options: {
+                cacheDirectory: true,
+              }
             },
             {
               loader: "ts-loader",
@@ -71,5 +75,22 @@ module.exports = {
     port: 3000,
     hot: true,
     open: true
+  },
+  optimization: {
+    minimize: isProductionMode,
+    minimizer: [
+      new TerserPlugin({
+        extractComments: false
+      }),
+    ],
+    splitChunks: {
+      cacheGroups: {
+        vendor: {
+          name: "node_vendors",
+          test: /[\\/]node_modules[\\/]/,
+          chunks: "all",
+        }
+      }
+    }
   }
 };
