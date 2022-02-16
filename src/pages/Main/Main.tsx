@@ -1,14 +1,14 @@
-import React, { FC, useEffect } from 'react';
+import React, {FC, useEffect} from 'react';
 
-import { useAppDispatch, useAppSelector } from '../../store';
-import { Card } from '../../components';
+import {useAppDispatch, useAppSelector} from '../../store';
+import {Banner, Card, MODE, Spinner} from '../../components';
 
-import { getGuestsThunk } from './slice/thunks';
-import { ContainerStyled, ContentStyled } from './Main.style';
+import {getGuestsThunk} from './slice/thunks';
+import {ContainerStyled, ContentStyled} from './Main.style';
 
 const Main: FC = () => {
   const dispatch = useAppDispatch();
-  const { data } = useAppSelector((state) => state.guests);
+  const { data, loading, error } = useAppSelector((state) => state.guests);
 
   useEffect(() => {
     dispatch(getGuestsThunk());
@@ -16,8 +16,9 @@ const Main: FC = () => {
 
   return (
     <ContainerStyled>
+      {loading && <Spinner text="Загрузка..." />}
       {data
-        ? (
+          && (
           <ContentStyled>
             {data.map(({ name, invitation, accept }) => (
               <Card
@@ -28,8 +29,8 @@ const Main: FC = () => {
               />
             ))}
           </ContentStyled>
-        )
-        : null}
+          )}
+      {error && <Banner mode={MODE.error} text="Что-то пошло не так..." />}
     </ContainerStyled>
   );
 };

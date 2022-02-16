@@ -49,7 +49,7 @@ export const createGenericSlice = <
         .addCase(asyncThunk.fulfilled, (state, { payload }) => ({
           ...state,
           loading: false,
-          error: true,
+          error: false,
           data: payload,
         }))
         .addCase(asyncThunk.rejected, (state) => ({
