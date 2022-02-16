@@ -3,6 +3,7 @@ module.exports = {
     '@babel/preset-env'
   ],
   plugins: [
+    '@emotion',
     '@babel/plugin-transform-runtime'
   ]
 }
