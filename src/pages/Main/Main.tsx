@@ -1,19 +1,35 @@
 import React, { FC, useEffect } from 'react';
 
-import { ContainerStyled } from './Main.style';
+import { useAppDispatch, useAppSelector } from '../../store';
+import { Card } from '../../components';
 
-interface MainProps {
-  label: string
-}
+import { getGuestsThunk } from './slice/thunks';
+import { ContainerStyled, ContentStyled } from './Main.style';
 
-const Main: FC<MainProps> = ({ label }) => {
+const Main: FC = () => {
+  const dispatch = useAppDispatch();
+  const { data } = useAppSelector((state) => state.guests);
+
   useEffect(() => {
-    console.log('Main mount');
-  }, []);
+    dispatch(getGuestsThunk());
+  }, [dispatch]);
 
   return (
     <ContainerStyled>
-      <h1>{label}</h1>
+      {data
+        ? (
+          <ContentStyled>
+            {data.map(({ name, invitation, accept }) => (
+              <Card
+                key={name}
+                name={name}
+                invitation={invitation}
+                accept={accept}
+              />
+            ))}
+          </ContentStyled>
+        )
+        : null}
     </ContainerStyled>
   );
 };
