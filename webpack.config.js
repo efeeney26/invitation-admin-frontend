@@ -64,7 +64,7 @@ module.exports = {
     ])
   ],
   output: {
-    path: path.resolve(__dirname, 'dist'),
+    path: path.resolve(__dirname, 'build'),
     filename: 'js/[name].[contenthash].js',
     assetModuleFilename: 'assets/[name].[contenthash][ext]',
     chunkFilename: '[name].[contenthash].js',

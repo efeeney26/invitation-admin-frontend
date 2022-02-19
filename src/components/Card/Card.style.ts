@@ -6,6 +6,6 @@ export const CardStyled = styled.div({
   flexDirection: 'column',
   justifyContent: 'space-around',
   alignItems: 'center',
-  width: '200px',
-  height: '400px',
+  width: '100%',
+  height: '300px',
 });

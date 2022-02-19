@@ -1,10 +1,12 @@
-import React, {FC, useEffect} from 'react';
+import React, { FC, useEffect } from 'react';
 
-import {useAppDispatch, useAppSelector} from '../../store';
-import {Banner, Card, MODE, Spinner} from '../../components';
+import { useAppDispatch, useAppSelector } from '../../store';
+import {
+  Banner, Card, MODE, Spinner,
+} from '../../components';
 
-import {getGuestsThunk} from './slice/thunks';
-import {ContainerStyled, ContentStyled} from './Main.style';
+import { getGuestsThunk } from './slice/thunks';
+import { ContainerStyled, ContentStyled } from './Main.style';
 
 const Main: FC = () => {
   const dispatch = useAppDispatch();

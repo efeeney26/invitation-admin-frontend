@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 
 import { MODE } from './types';
 
-const getColor = (mode: MODE) => {
+export const getColor = (mode: MODE) => {
   switch (mode) {
     case MODE.error:
       return 'red';
