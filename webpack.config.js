@@ -1,12 +1,21 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const webpack = require('webpack')
+const dotenv = require('dotenv');
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
 const ReactRefreshTypeScript = require('react-refresh-typescript');
 const TerserPlugin = require("terser-webpack-plugin")
 
+const env = dotenv.config().parsed;
+const envKeys = Object.keys(env).reduce((acc, current) => {
+  acc[`process.env.${current}`] = JSON.stringify(env[current]);
+  return acc;
+}, {});
+
 const {
-  NODE_ENV = 'development'
+  NODE_ENV = 'development',
+  BACKEND_URL
 } = process.env
 
 const isProductionMode = NODE_ENV === 'production'
@@ -58,6 +67,7 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: 'public/index.html'
     }),
+    new webpack.DefinePlugin(envKeys),
     new ForkTsCheckerWebpackPlugin(),
     ...(isProductionMode ? [] : [
       new ReactRefreshWebpackPlugin()
@@ -77,7 +87,7 @@ module.exports = {
     proxy: [
       {
         context: ['/api'],
-        target: 'http://localhost:8080',
+        target: BACKEND_URL,
       }
     ],
   },

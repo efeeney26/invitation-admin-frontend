@@ -19,6 +19,7 @@ const Main: FC = () => {
   return (
     <ContainerStyled>
       {loading && <Spinner text="Загрузка..." />}
+      {error && <Banner mode={MODE.error} text="Что-то пошло не так..." />}
       {data
           && (
           <ContentStyled>
@@ -32,7 +33,6 @@ const Main: FC = () => {
             ))}
           </ContentStyled>
           )}
-      {error && <Banner mode={MODE.error} text="Что-то пошло не так..." />}
     </ContainerStyled>
   );
 };
