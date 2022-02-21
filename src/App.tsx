@@ -2,10 +2,12 @@ import React, { FC } from 'react';
 import { Provider } from 'react-redux';
 import { Global } from '@emotion/react';
 
-import { getGlobalStyles } from './utils'
+import { getGlobalStyles } from './utils';
 
 import { store } from './store';
 import { Main } from './pages';
+
+console.log('pr', process.env.NODE_ENV);
 
 const App: FC = () => (
   <Provider store={store}>
