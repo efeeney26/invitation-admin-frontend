@@ -14,8 +14,7 @@ const envKeys = Object.keys(env).reduce((acc, current) => {
 }, {});
 
 const {
-  NODE_ENV = 'development',
-  BACKEND_URL
+  NODE_ENV = 'development'
 } = process.env
 
 const isProductionMode = NODE_ENV === 'production'
@@ -87,7 +86,7 @@ module.exports = {
     proxy: [
       {
         context: ['/api'],
-        target: BACKEND_URL,
+        target: 'http://localhost:8080',
       }
     ],
   },

@@ -7,8 +7,6 @@ import { getGlobalStyles } from './utils';
 import { store } from './store';
 import { Main } from './pages';
 
-console.log('pr', process.env);
-
 const App: FC = () => (
   <Provider store={store}>
     <Global styles={getGlobalStyles()} />
