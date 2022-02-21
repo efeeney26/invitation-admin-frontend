@@ -18,6 +18,6 @@ export const ContentStyled = styled.div(
     justifyContent: 'flex-start',
     '> :not(:last-child)': {
       marginBottom: '20px',
-    }
+    },
   },
 );
