@@ -5,6 +5,7 @@ export const ContainerStyled = styled.div(
     padding: '20px',
     textAlign: 'center',
     height: '100vh',
+    background: 'black',
   },
 );
 
@@ -17,6 +18,6 @@ export const ContentStyled = styled.div(
     justifyContent: 'flex-start',
     '> :not(:last-child)': {
       marginBottom: '20px',
-    },
+    }
   },
 );
