@@ -56,6 +56,14 @@ module.exports = {
               loader: 'babel-loader'
             }
           ]
+        },
+        {
+          test: /\.(png|svg|jpg|jpeg|gif)$/i,
+          type: 'asset',
+        },
+        {
+          test: /\.(woff|woff2|eot|ttf|otf)$/i,
+          type: 'asset',
         }
       ],
   },

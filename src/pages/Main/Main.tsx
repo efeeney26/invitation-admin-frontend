@@ -1,34 +1,52 @@
-import React, { FC, useEffect } from 'react';
+import React, { FC, useCallback, useEffect } from 'react';
 
 import { useAppDispatch, useAppSelector } from '../../store';
 import {
-  Banner, Card, MODE, Spinner,
+  Banner, MODE, Spinner, GuestCard,
 } from '../../components';
 
-import { getGuestsThunk } from './slice/thunks';
-import { ContainerStyled, ContentStyled } from './Main.style';
+import { deleteGuestThunk, getGuestsThunk } from './slice/thunks';
+import { deleteGuestSelector, guestsSelector } from './slice/selectors';
+import { ContainerStyled, ContentStyled, InfoStyled } from './Main.style';
 
 const Main: FC = () => {
   const dispatch = useAppDispatch();
-  const { data, loading, error } = useAppSelector((state) => state.guests);
+  const {
+    data: guests,
+    loading: guestsLoading,
+    error: guestsError,
+  } = useAppSelector(guestsSelector);
+
+  const {
+    data: deleteMessage,
+  } = useAppSelector(deleteGuestSelector);
 
   useEffect(() => {
     dispatch(getGuestsThunk());
+  }, [dispatch, deleteMessage]);
+
+  const handleDelete = useCallback((guest) => {
+    dispatch(deleteGuestThunk(guest));
   }, [dispatch]);
 
   return (
     <ContainerStyled>
-      {loading && <Spinner text="Загрузка..." />}
-      {error && <Banner mode={MODE.error} text="Что-то пошло не так..." />}
-      {data
+      {guestsLoading && <Spinner text="Загрузка..." />}
+      {guestsError && <Banner mode={MODE.error} text="Что-то пошло не так..." />}
+      {deleteMessage
+        && (
+        <InfoStyled>
+          <Banner mode={MODE.success} text={deleteMessage?.message} withCancel />
+        </InfoStyled>
+        )}
+      {guests
           && (
           <ContentStyled>
-            {data.map(({ name, invitation, accept }) => (
-              <Card
-                key={name}
-                name={name}
-                invitation={invitation}
-                accept={accept}
+            {guests.map((guest) => (
+              <GuestCard
+                key={guest.name}
+                guest={guest}
+                onDelete={handleDelete}
               />
             ))}
           </ContentStyled>

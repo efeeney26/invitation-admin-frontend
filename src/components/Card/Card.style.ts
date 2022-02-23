@@ -9,4 +9,12 @@ export const CardStyled = styled.div({
   width: '100%',
   height: '300px',
   background: 'grey',
+  position: 'relative',
+});
+
+export const ImageStyled = styled.img({
+  position: 'absolute',
+  top: 10,
+  right: 10,
+  cursor: 'pointer',
 });

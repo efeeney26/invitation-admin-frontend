@@ -29,5 +29,6 @@ module.exports = {
         namedComponents: "arrow-function"
       },
     ],
+    'import/prefer-default-export': 'off'
   },
 };

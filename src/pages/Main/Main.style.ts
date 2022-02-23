@@ -4,8 +4,9 @@ export const ContainerStyled = styled.div(
   {
     padding: '20px',
     textAlign: 'center',
-    height: '100vh',
+    minHeight: '100vh',
     background: 'black',
+    color: 'white',
   },
 );
 
@@ -21,3 +22,11 @@ export const ContentStyled = styled.div(
     },
   },
 );
+
+export const InfoStyled = styled.div({
+  position: 'sticky',
+  top: 0,
+  left: 0,
+  width: '100%',
+  zIndex: 1,
+});

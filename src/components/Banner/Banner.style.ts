@@ -19,6 +19,7 @@ export const BannerStyled = styled.div<{ mode: MODE }>(
     alignItems: 'center',
     justifyContent: 'center',
     color: 'white',
+    position: 'relative',
   },
   ({ mode }) => ({
     backgroundColor: getColor(mode),

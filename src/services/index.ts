@@ -1,6 +1,7 @@
 import axios from 'axios';
 
 import { IApiClient } from './types';
+import { IGuest } from '../types';
 
 const LOCAL_BACKEND_URL = '/api/guests';
 
@@ -11,13 +12,11 @@ export const axiosInstance = axios.create({
 class ApiClient implements IApiClient {
   private client = axiosInstance;
 
-  public getGuests = async () => {
-    const config = {
-      method: <const>'GET',
-      url: '/',
-    };
-    return this.client(config);
-  };
+  public getGuests = () => this.client
+    .get('/');
+
+  public deleteGuest = (payload: { guest: IGuest }) => this.client
+    .patch('/deleteGuest', payload);
 }
 
 const apiClient: IApiClient = new ApiClient();

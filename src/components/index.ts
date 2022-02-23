@@ -1,10 +1,10 @@
-import Card from './Card/Card';
+import GuestCard from './Card/GuestCard';
 import Spinner from './Spinner/Spinner';
 import Banner from './Banner/Banner';
 import { MODE } from './Banner/types';
 
 export {
-  Card,
+  GuestCard,
   Spinner,
   Banner,
   MODE,
