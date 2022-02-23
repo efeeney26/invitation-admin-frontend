@@ -1,13 +1,17 @@
-import React, { FC, useCallback, useEffect } from 'react';
+import React, {
+  FC, useCallback, useEffect, useState,
+} from 'react';
 
 import { useAppDispatch, useAppSelector } from '../../store';
 import {
-  Banner, MODE, Spinner, GuestCard,
+  Banner, Loader, Modal, MODE, GuestCard, GuestForm, Button,
 } from '../../components';
 
-import { deleteGuestThunk, getGuestsThunk } from './slice/thunks';
-import { deleteGuestSelector, guestsSelector } from './slice/selectors';
-import { ContainerStyled, ContentStyled, InfoStyled } from './Main.style';
+import { addGuestThunk, deleteGuestThunk, getGuestsThunk } from './slice/thunks';
+import { addGuestSelector, deleteGuestSelector, guestsSelector } from './slice/selectors';
+import {
+  ContainerStyled, InfoStyled, HeaderStyled, ContentStyled,
+} from './Main.style';
 
 const Main: FC = () => {
   const dispatch = useAppDispatch();
@@ -18,27 +22,70 @@ const Main: FC = () => {
   } = useAppSelector(guestsSelector);
 
   const {
-    data: deleteMessage,
+    data: deleteGuestMessage,
   } = useAppSelector(deleteGuestSelector);
+
+  const {
+    data: addGuestMessage,
+    error: addGuestError,
+  } = useAppSelector(addGuestSelector);
+
+  const [isModalOpen, setModalOpen] = useState(false);
 
   useEffect(() => {
     dispatch(getGuestsThunk());
-  }, [dispatch, deleteMessage]);
+  }, [dispatch, deleteGuestMessage, addGuestMessage]);
 
-  const handleDelete = useCallback((guest) => {
+  useEffect(() => {
+    if (addGuestMessage && !addGuestError) {
+      setModalOpen(false);
+    }
+  }, [addGuestError, addGuestMessage]);
+
+  const handleDeleteGuest = useCallback((guest) => {
     dispatch(deleteGuestThunk(guest));
   }, [dispatch]);
 
+  const handleAddGuest = useCallback((guest) => {
+    dispatch(addGuestThunk(guest));
+  }, [dispatch]);
+
+  const handleOpenModal = useCallback(() => {
+    setModalOpen(true);
+  }, []);
+
+  const handleCloseModal = useCallback(() => {
+    setModalOpen(false);
+  }, []);
+
   return (
     <ContainerStyled>
-      {guestsLoading && <Spinner text="Загрузка..." />}
+      {guestsLoading && <Loader text="Загрузка..." />}
       {guestsError && <Banner mode={MODE.error} text="Что-то пошло не так..." />}
-      {deleteMessage
+      {(deleteGuestMessage || addGuestMessage)
         && (
         <InfoStyled>
-          <Banner mode={MODE.success} text={deleteMessage?.message} withCancel />
+          <Banner
+            mode={MODE.success}
+            text={deleteGuestMessage?.message || addGuestMessage?.message}
+            withCancel
+          />
         </InfoStyled>
         )}
+      <Modal
+        isOpen={isModalOpen}
+        onClose={handleCloseModal}
+      >
+        <h3>Добавить гостя</h3>
+        <GuestForm onSubmit={handleAddGuest} />
+      </Modal>
+      <HeaderStyled>
+        <p>Здесь поиск</p>
+        <Button
+          label="Добавить гостя"
+          onClick={handleOpenModal}
+        />
+      </HeaderStyled>
       {guests
           && (
           <ContentStyled>
@@ -46,7 +93,7 @@ const Main: FC = () => {
               <GuestCard
                 key={guest.name}
                 guest={guest}
-                onDelete={handleDelete}
+                onDelete={handleDeleteGuest}
               />
             ))}
           </ContentStyled>

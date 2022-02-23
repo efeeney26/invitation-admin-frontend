@@ -29,6 +29,7 @@ module.exports = {
         namedComponents: "arrow-function"
       },
     ],
-    'import/prefer-default-export': 'off'
+    'import/prefer-default-export': 'off',
+    'import/no-named-as-default': 'off'
   },
 };

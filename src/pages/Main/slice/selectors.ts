@@ -32,3 +32,23 @@ export const deleteGuestSelector = createSelector(
   },
   (search) => search,
 );
+
+export const addGuestSelector = createSelector(
+  (state: RootState) => {
+    const {
+      guests: {
+        addGuest: {
+          data,
+          loading,
+          error,
+        },
+      },
+    } = state;
+    return {
+      data,
+      loading,
+      error,
+    };
+  },
+  (search) => search,
+);

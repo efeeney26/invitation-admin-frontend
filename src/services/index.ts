@@ -17,6 +17,9 @@ class ApiClient implements IApiClient {
 
   public deleteGuest = (payload: { guest: IGuest }) => this.client
     .patch('/deleteGuest', payload);
+
+  public addGuest = (payload: { guest: IGuest }) => this.client
+    .post('/addGuest', payload);
 }
 
 const apiClient: IApiClient = new ApiClient();

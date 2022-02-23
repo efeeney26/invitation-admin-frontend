@@ -10,6 +10,12 @@ export const ContainerStyled = styled.div(
   },
 );
 
+export const HeaderStyled = styled.div({
+  display: 'flex',
+  justifyContent: 'space-between',
+  marginBottom: '20px'
+});
+
 export const ContentStyled = styled.div(
   {
     display: 'flex',

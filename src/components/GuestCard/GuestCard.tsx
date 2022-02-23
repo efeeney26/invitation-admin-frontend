@@ -2,7 +2,7 @@ import React, { FC, useCallback } from 'react';
 
 import { IGuest } from '../../types';
 import { iconCancel } from '../../assets';
-import { CardStyled, ImageStyled } from './Card.style';
+import { CardStyled, ImageStyled } from './GuestCard.style';
 
 interface CardProps {
   guest: {

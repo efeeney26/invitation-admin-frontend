@@ -17,3 +17,11 @@ export const deleteGuestThunk = createAsyncThunk(
     return data;
   },
 );
+
+export const addGuestThunk = createAsyncThunk(
+  'addGuest',
+  async (guest: IGuest) => {
+    const { data } = await apiClient.addGuest({ guest });
+    return data;
+  },
+);
