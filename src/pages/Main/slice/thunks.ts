@@ -10,10 +10,26 @@ export const getGuestsThunk = createAsyncThunk(
   },
 );
 
+export const getGuestThunk = createAsyncThunk(
+  'guest',
+  async (id: string) => {
+    const { data } = await apiClient.getGuest({ id });
+    return data;
+  },
+);
+
 export const deleteGuestThunk = createAsyncThunk(
   'deleteGuest',
   async (guest: IGuest) => {
     const { data } = await apiClient.deleteGuest({ guest });
+    return data;
+  },
+);
+
+export const updateGuestThunk = createAsyncThunk(
+  'updateGuest',
+  async (guest: IGuest) => {
+    const { data } = await apiClient.updateGuest({ guest });
     return data;
   },
 );

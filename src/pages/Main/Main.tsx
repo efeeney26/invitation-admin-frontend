@@ -1,17 +1,24 @@
 import React, {
-  FC, useCallback, useEffect, useState,
+  FC, useCallback, useEffect, useMemo, useState,
 } from 'react';
 
+import { IGuest, MODE } from '../../types';
 import { useAppDispatch, useAppSelector } from '../../store';
 import {
-  Banner, Loader, Modal, MODE, GuestCard, GuestForm, Button,
+  Banner, Button, GuestCard, GuestForm, LabeledTextField, Loader, Modal,
 } from '../../components';
 
-import { addGuestThunk, deleteGuestThunk, getGuestsThunk } from './slice/thunks';
-import { addGuestSelector, deleteGuestSelector, guestsSelector } from './slice/selectors';
 import {
-  ContainerStyled, InfoStyled, HeaderStyled, ContentStyled,
-} from './Main.style';
+  addGuestThunk, deleteGuestThunk, getGuestsThunk, getGuestThunk, updateGuestThunk,
+} from './slice/thunks';
+import {
+  addGuestSelector,
+  deleteGuestSelector,
+  guestSelector,
+  guestsSelector,
+  updateGuestSelector,
+} from './slice/selectors';
+import { ContainerStyled, ContentStyled, HeaderStyled } from './Main.style';
 
 const Main: FC = () => {
   const dispatch = useAppDispatch();
@@ -20,6 +27,14 @@ const Main: FC = () => {
     loading: guestsLoading,
     error: guestsError,
   } = useAppSelector(guestsSelector);
+
+  const {
+    data: guestById,
+  } = useAppSelector(guestSelector);
+
+  const {
+    data: updatedGuest,
+  } = useAppSelector(updateGuestSelector);
 
   const {
     data: deleteGuestMessage,
@@ -31,10 +46,34 @@ const Main: FC = () => {
   } = useAppSelector(addGuestSelector);
 
   const [isModalOpen, setModalOpen] = useState(false);
+  const [isGetModalOpen, setGetModalOpen] = useState(false);
+  const [search, setSearch] = useState('');
+  const [filter, setFilter] = useState(false);
+  const [guestsItems, setGuestsItems] = useState<IGuest[] | null>(null);
+
+  const filteredGuests = useMemo(() => {
+    if (guests) {
+      if (search || filter) {
+        return guests.reduce((acc: IGuest[], current) => ([
+          ...acc,
+          ...(search && current.name.includes(search) ? [current] : []),
+          ...(filter && current.accept ? [current] : []),
+        ]), []);
+      }
+      return guests;
+    }
+    return null;
+  }, [filter, guests, search]);
+
+  useEffect(() => {
+    if (filteredGuests) {
+      setGuestsItems(filteredGuests);
+    }
+  }, [filteredGuests]);
 
   useEffect(() => {
     dispatch(getGuestsThunk());
-  }, [dispatch, deleteGuestMessage, addGuestMessage]);
+  }, [dispatch, deleteGuestMessage, addGuestMessage, updatedGuest]);
 
   useEffect(() => {
     if (addGuestMessage && !addGuestError) {
@@ -42,13 +81,36 @@ const Main: FC = () => {
     }
   }, [addGuestError, addGuestMessage]);
 
+  useEffect(() => {
+    if (updatedGuest) {
+      setGetModalOpen(false);
+    }
+  }, [updatedGuest]);
+
+  useEffect(() => {
+    if (guestById) {
+      setGetModalOpen(true);
+    }
+  }, [guestById]);
+
   const handleDeleteGuest = useCallback((guest) => {
-    dispatch(deleteGuestThunk(guest));
+    if (window.confirm('Точно удалить?')) {
+      dispatch(deleteGuestThunk(guest));
+    }
   }, [dispatch]);
 
   const handleAddGuest = useCallback((guest) => {
     dispatch(addGuestThunk(guest));
   }, [dispatch]);
+
+  const handleUpdateGuest = useCallback((guest) => {
+    const guestAfterUpdate = {
+      ...guestById,
+      ...guest,
+    };
+
+    dispatch(updateGuestThunk(guestAfterUpdate));
+  }, [dispatch, guestById]);
 
   const handleOpenModal = useCallback(() => {
     setModalOpen(true);
@@ -58,20 +120,60 @@ const Main: FC = () => {
     setModalOpen(false);
   }, []);
 
+  const handleCloseGetModal = useCallback(() => {
+    setGetModalOpen(false);
+  }, []);
+
+  const handleGetGuest = useCallback((id) => {
+    if (id) {
+      dispatch(getGuestThunk(id));
+    }
+  }, [dispatch]);
+
+  const handleSearchChange = useCallback((e) => {
+    setSearch(e.target.value);
+  }, []);
+
+  const handleFilterGuests = useCallback(() => {
+    setFilter((prev) => !prev);
+  }, []);
+
   return (
     <ContainerStyled>
       {guestsLoading && <Loader text="Загрузка..." />}
       {guestsError && <Banner mode={MODE.error} text="Что-то пошло не так..." />}
-      {(deleteGuestMessage || addGuestMessage)
-        && (
-        <InfoStyled>
-          <Banner
-            mode={MODE.success}
-            text={deleteGuestMessage?.message || addGuestMessage?.message}
-            withCancel
-          />
-        </InfoStyled>
-        )}
+      <HeaderStyled>
+        <LabeledTextField
+          id="search"
+          value={search}
+          label="Поиск по имени"
+          onChange={handleSearchChange}
+          fullWidth={false}
+        />
+        <Button
+          label="Фильтр"
+          onClick={handleFilterGuests}
+          mode={MODE.info}
+        />
+        <Button
+          label="Добавить гостя"
+          onClick={handleOpenModal}
+        />
+      </HeaderStyled>
+      <h4>{`Всего ${filteredGuests?.length} гостей`}</h4>
+      {guestsItems
+          && (
+          <ContentStyled>
+            {guestsItems.map((guest) => (
+              <GuestCard
+                key={guest.name}
+                guest={guest}
+                onDelete={handleDeleteGuest}
+                onClick={handleGetGuest}
+              />
+            ))}
+          </ContentStyled>
+          )}
       <Modal
         isOpen={isModalOpen}
         onClose={handleCloseModal}
@@ -79,25 +181,18 @@ const Main: FC = () => {
         <h3>Добавить гостя</h3>
         <GuestForm onSubmit={handleAddGuest} />
       </Modal>
-      <HeaderStyled>
-        <p>Здесь поиск</p>
-        <Button
-          label="Добавить гостя"
-          onClick={handleOpenModal}
+      <Modal
+        isOpen={isGetModalOpen}
+        onClose={handleCloseGetModal}
+      >
+        <h3>Гость</h3>
+        <GuestForm
+          name={guestById?.name}
+          invitation={guestById?.invitation}
+          submitName="Обновить данные по гостю"
+          onSubmit={handleUpdateGuest}
         />
-      </HeaderStyled>
-      {guests
-          && (
-          <ContentStyled>
-            {guests.map((guest) => (
-              <GuestCard
-                key={guest.name}
-                guest={guest}
-                onDelete={handleDeleteGuest}
-              />
-            ))}
-          </ContentStyled>
-          )}
+      </Modal>
     </ContainerStyled>
   );
 };

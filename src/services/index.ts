@@ -15,8 +15,14 @@ class ApiClient implements IApiClient {
   public getGuests = () => this.client
     .get('/');
 
+  public getGuest = (payload: { id: string }) => this.client
+    .get(`/guest?id=${payload.id}`);
+
   public deleteGuest = (payload: { guest: IGuest }) => this.client
     .patch('/deleteGuest', payload);
+
+  public updateGuest = (payload: { guest: IGuest }) => this.client
+    .patch('/updateGuest', payload);
 
   public addGuest = (payload: { guest: IGuest }) => this.client
     .post('/addGuest', payload);

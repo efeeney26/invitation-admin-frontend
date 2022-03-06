@@ -1,15 +1,8 @@
 import styled from '@emotion/styled';
 
-import { MODE } from './types';
+import { MODE } from '../../types';
 
-export const getColor = (mode: MODE) => {
-  switch (mode) {
-    case MODE.error:
-      return 'red';
-    default:
-      return 'green';
-  }
-};
+import { getColor } from '../../utils';
 
 export const BannerStyled = styled.div<{ mode: MODE }>(
   {
@@ -25,3 +18,10 @@ export const BannerStyled = styled.div<{ mode: MODE }>(
     backgroundColor: getColor(mode),
   }),
 );
+
+export const ImageStyled = styled.img({
+  position: 'absolute',
+  top: 10,
+  right: 10,
+  cursor: 'pointer',
+});

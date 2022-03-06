@@ -1,9 +1,8 @@
 import React, { FC, useCallback, useState } from 'react';
 
 import { iconCancel } from '../../assets';
-import { MODE } from './types';
-import { BannerStyled } from './Banner.style';
-import { ImageStyled } from '../GuestCard/GuestCard.style';
+import { MODE } from '../../types';
+import { BannerStyled, ImageStyled } from './Banner.style';
 
 interface BannerProps {
   mode: MODE,
@@ -43,7 +42,7 @@ export const Banner: FC<BannerProps> = ({
 
 Banner.defaultProps = {
   withCancel: false,
-  text: ''
+  text: '',
 };
 
 export default Banner;

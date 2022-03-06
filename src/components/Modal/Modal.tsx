@@ -1,8 +1,7 @@
 import React, { FC } from 'react';
 
 import { iconCancel } from '../../assets';
-import { ModalStyled } from './Modal.style';
-import { ImageStyled } from '../GuestCard/GuestCard.style';
+import { ModalStyled, ImageStyled } from './Modal.style';
 
 interface ModalProps {
   isOpen: boolean,

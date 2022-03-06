@@ -7,17 +7,20 @@ export const ContainerStyled = styled.div(
     minHeight: '100vh',
     background: 'black',
     color: 'white',
+    fontSize: '2rem',
   },
 );
 
 export const HeaderStyled = styled.div({
   display: 'flex',
   justifyContent: 'space-between',
-  marginBottom: '20px'
+  alignItems: 'center',
+  marginBottom: '20px',
 });
 
 export const ContentStyled = styled.div(
   {
+    marginTop: '20px',
     display: 'flex',
     flexDirection: 'column',
     height: '100%',

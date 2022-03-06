@@ -1,10 +1,15 @@
 import styled from '@emotion/styled';
 
-export const LabelStyled = styled.label({
-  display: 'flex',
-  flexDirection: 'column',
-  width: '100%',
-});
+export const LabelStyled = styled.label<{ fullWidth: boolean }>(
+  {
+    display: 'flex',
+    flexDirection: 'column',
+    width: '100%',
+  },
+  ({ fullWidth }) => ({
+    width: fullWidth ? '100%' : '50%',
+  }),
+);
 
 export const LabeledInput = styled.input({
   border: '1px solid black',

@@ -7,7 +7,8 @@ interface LabeledTextFieldProps {
   value: string,
   onChange: ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement>,
   label: string,
-  multiline?: boolean
+  multiline?: boolean,
+  fullWidth?: boolean,
 }
 
 export const LabeledTextField: FC<LabeledTextFieldProps> = ({
@@ -16,8 +17,9 @@ export const LabeledTextField: FC<LabeledTextFieldProps> = ({
   onChange,
   label,
   multiline = false,
+  fullWidth = true,
 }) => (
-  <LabelStyled htmlFor={id}>
+  <LabelStyled htmlFor={id} fullWidth={fullWidth}>
     {label}
     {multiline
       ? (
@@ -41,6 +43,7 @@ export const LabeledTextField: FC<LabeledTextFieldProps> = ({
 
 LabeledTextField.defaultProps = {
   multiline: false,
+  fullWidth: true
 };
 
 export default LabeledTextField;

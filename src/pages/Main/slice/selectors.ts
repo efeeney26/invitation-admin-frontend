@@ -17,6 +17,38 @@ export const guestsSelector = createSelector(
   (search) => search,
 );
 
+export const guestSelector = createSelector(
+  (state: RootState) => {
+    const {
+      guests: {
+        guest: {
+          data, loading, error,
+        },
+      },
+    } = state;
+    return {
+      data, loading, error,
+    };
+  },
+  (search) => search,
+);
+
+export const updateGuestSelector = createSelector(
+  (state: RootState) => {
+    const {
+      guests: {
+        updateGuest: {
+          data, loading, error,
+        },
+      },
+    } = state;
+    return {
+      data, loading, error,
+    };
+  },
+  (search) => search,
+);
+
 export const deleteGuestSelector = createSelector(
   (state: RootState) => {
     const {
