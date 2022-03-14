@@ -2,7 +2,6 @@ import React, { FC, useCallback, useState } from 'react';
 
 import Button from '../Button/Button';
 import LabeledTextField from '../LabeledTextField/LabeledTextField';
-import { DEFAULT_INVITATION } from '../../constants';
 import { GuestFormStyled } from './GuestForm.style';
 
 interface GuestFormProps {
@@ -15,7 +14,7 @@ interface GuestFormProps {
 export const GuestForm: FC<GuestFormProps> = ({
   onSubmit, name, invitation, submitName = 'Добавить гостя',
 }) => {
-  const [data, setData] = useState<{ name: string, invitation: string }>({ name: name || '', invitation: invitation || DEFAULT_INVITATION });
+  const [data, setData] = useState<{ name: string, invitation: string }>({ name: name || '', invitation: invitation || '' });
 
   const handleSubmit = useCallback((e) => {
     e.preventDefault();
