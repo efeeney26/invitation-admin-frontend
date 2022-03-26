@@ -1,1 +1,1 @@
-export const RESOURCE = 'http://danilanadya.ru/';
+export const RESOURCE = 'https://danilanadya.ru/';
