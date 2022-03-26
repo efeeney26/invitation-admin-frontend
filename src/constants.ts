@@ -1,1 +1,1 @@
-export const RESOURCE = 'https://efeeney26.github.io/invitaion-frontend/';
+export const RESOURCE = 'http://danilanadya.ru/';
