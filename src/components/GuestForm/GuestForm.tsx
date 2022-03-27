@@ -2,32 +2,33 @@ import React, { FC, useCallback, useState } from 'react';
 
 import Button from '../Button/Button';
 import LabeledTextField from '../LabeledTextField/LabeledTextField';
+import Checkbox from '../Checkbox/Checkbox';
 import { GuestFormStyled } from './GuestForm.style';
 
 interface GuestFormProps {
   onSubmit: (data: Record<string, unknown>) => unknown
   name?: string
   invitation?: string
+  accept?: boolean
   submitName?: string
 }
 
 export const GuestForm: FC<GuestFormProps> = ({
-  onSubmit, name, invitation, submitName = 'Добавить гостя',
+  onSubmit, name, invitation, accept, submitName = 'Добавить гостя',
 }) => {
-  const [data, setData] = useState<{ name: string, invitation: string }>({ name: name || '', invitation: invitation || '' });
+  const [data, setData] = useState<{ name: string, invitation: string, accept: boolean }>({ name: name || '', invitation: invitation || '', accept: accept || false });
 
   const handleSubmit = useCallback((e) => {
     e.preventDefault();
     onSubmit({
       ...data,
-      accept: false,
     });
   }, [data, onSubmit]);
 
   const handleChange = useCallback((e) => {
     setData((prev) => ({
       ...prev,
-      [e.target.id]: e.target.value,
+      [e.target.id]: e.target.id === 'accept' ? e.target.checked : e.target.value,
     }));
   }, []);
 
@@ -46,6 +47,12 @@ export const GuestForm: FC<GuestFormProps> = ({
         onChange={handleChange}
         multiline
       />
+      <Checkbox
+        onChange={handleChange}
+        id="accept"
+        checked={data.accept}
+        label="Приглашение принято"
+      />
       <Button label={submitName} type="submit" />
     </GuestFormStyled>
   );
@@ -54,6 +61,7 @@ export const GuestForm: FC<GuestFormProps> = ({
 GuestForm.defaultProps = {
   name: '',
   invitation: '',
+  accept: false,
   submitName: 'Добавить гостя',
 };
 

@@ -5,6 +5,7 @@ import Modal from './Modal/Modal';
 import Button from './Button/Button';
 import GuestForm from './GuestForm/GuestForm';
 import LabeledTextField from './LabeledTextField/LabeledTextField';
+import Checkbox from './Checkbox/Checkbox';
 
 export {
   GuestCard,
@@ -14,4 +15,5 @@ export {
   Button,
   GuestForm,
   LabeledTextField,
+  Checkbox,
 };

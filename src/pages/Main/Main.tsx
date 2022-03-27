@@ -189,6 +189,7 @@ const Main: FC = () => {
         <GuestForm
           name={guestById?.name}
           invitation={guestById?.invitation}
+          accept={guestById?.accept}
           submitName="Обновить данные по гостю"
           onSubmit={handleUpdateGuest}
         />
