@@ -6,7 +6,7 @@ export const ModalStyled = styled.div({
   top: 0,
   background: 'white',
   width: '100%',
-  height: '100vh',
+  minHeight: '100vh',
   zIndex: 100,
   padding: '20px',
   color: 'black',
