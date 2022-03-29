@@ -6,4 +6,7 @@ export const GuestFormStyled = styled.form({
   height: '100%',
   alignItems: 'center',
   justifyContent: 'space-around',
+  '> :not(:last-child)': {
+    marginBottom: '100px',
+  },
 });
