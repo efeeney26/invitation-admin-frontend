@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
 import { Provider } from 'react-redux';
 import {
-  BrowserRouter,
+  HashRouter,
   Routes,
   Route,
 } from 'react-router-dom';
@@ -15,7 +15,7 @@ import { Main, Auth } from './pages';
 
 const App: FC = () => (
   <Provider store={store}>
-    <BrowserRouter>
+    <HashRouter>
       <Global styles={getGlobalStyles()} />
       <Routes>
         <Route path="/" element={<Auth />} />
@@ -28,7 +28,7 @@ const App: FC = () => (
           )}
         />
       </Routes>
-    </BrowserRouter>
+    </HashRouter>
   </Provider>
 );
 
