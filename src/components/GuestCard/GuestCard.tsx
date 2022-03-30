@@ -44,7 +44,7 @@ export const GuestCard: FC<CardProps> = ({ guest, onDelete, onClick }) => {
           onClick={handleDelete}
         />
       </ImageContainer>
-      <h4>{name}</h4>
+      <h4>{`Имя: ${name}`}</h4>
       <p>{`Статус: ${accept ? 'Принято' : 'Не принято'}`}</p>
       <p>{`Ссылка: ${link}`}</p>
       <Button

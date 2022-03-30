@@ -6,6 +6,7 @@ import Button from './Button/Button';
 import GuestForm from './GuestForm/GuestForm';
 import LabeledTextField from './LabeledTextField/LabeledTextField';
 import Checkbox from './Checkbox/Checkbox';
+import RequireAuth from './RequireAuth/RequireAuth';
 
 export {
   GuestCard,
@@ -16,4 +17,5 @@ export {
   GuestForm,
   LabeledTextField,
   Checkbox,
+  RequireAuth,
 };

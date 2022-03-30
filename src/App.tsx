@@ -1,16 +1,34 @@
 import React, { FC } from 'react';
 import { Provider } from 'react-redux';
+import {
+  BrowserRouter,
+  Routes,
+  Route,
+} from 'react-router-dom';
 import { Global } from '@emotion/react';
 
+import { RequireAuth } from './components';
 import { getGlobalStyles } from './utils';
 
 import { store } from './store';
-import { Main } from './pages';
+import { Main, Auth } from './pages';
 
 const App: FC = () => (
   <Provider store={store}>
-    <Global styles={getGlobalStyles()} />
-    <Main />
+    <BrowserRouter>
+      <Global styles={getGlobalStyles()} />
+      <Routes>
+        <Route path="/" element={<Auth />} />
+        <Route
+          path="main"
+          element={(
+            <RequireAuth>
+              <Main />
+            </RequireAuth>
+          )}
+        />
+      </Routes>
+    </BrowserRouter>
   </Provider>
 );
 

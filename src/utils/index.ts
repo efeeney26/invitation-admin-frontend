@@ -16,7 +16,12 @@ const getColor = (mode: MODE) => {
   }
 };
 
+const getCookieValue = (name: string) => (
+  document.cookie.match(`(^|;)\\s*${name}\\s*=\\s*([^;]+)`)?.pop() || ''
+);
+
 export {
   getGlobalStyles,
   getColor,
+  getCookieValue,
 };

@@ -97,6 +97,7 @@ module.exports = {
         target: 'http://localhost:8080',
       }
     ],
+    historyApiFallback: true,
   },
   optimization: {
     minimize: isProductionMode,
