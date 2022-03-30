@@ -85,6 +85,7 @@ module.exports = {
     filename: 'js/[name].[contenthash].js',
     assetModuleFilename: 'assets/[name].[contenthash][ext]',
     chunkFilename: '[name].[contenthash].js',
+    publicPath: "/",
     clean: true
   },
   devServer: {
