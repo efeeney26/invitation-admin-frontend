@@ -7,6 +7,7 @@ const LOCAL_BACKEND_URL = '/api';
 
 export const axiosInstance = axios.create({
   baseURL: process.env.NODE_ENV === 'production' ? `${process.env.BACKEND_URL}/api` : LOCAL_BACKEND_URL,
+  withCredentials: true,
 });
 
 class ApiClient implements IApiClient {
