@@ -5,6 +5,7 @@ import { Banner, Button, LabeledTextField } from '../../components';
 import { GuestFormStyled } from '../../components/GuestForm/GuestForm.style';
 import { AuthContainerStyled } from './Auth.style';
 import apiClient from '../../services';
+import { setCookie } from '../../utils';
 import { MODE } from '../../types';
 
 export const Auth: FC = () => {
@@ -23,6 +24,7 @@ export const Auth: FC = () => {
       try {
         const res = await apiClient.auth({ secret: btoa(secret) });
         if (res.data.status === 'OK') {
+          setCookie('auth_inv', 'inv', 1);
           navigate('/main');
         }
       } catch (error: unknown) {
